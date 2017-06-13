@@ -1,0 +1,350 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<link rel="apple-touch-icon" sizes="76x76"
+	href="assets/img/apple-icon.png" />
+<link rel="icon" type="image/png" href="assets/img/favicon.png" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+<title>Панель студента</title>
+
+<meta
+	content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'
+	name='viewport' />
+<meta name="viewport" content="width=device-width" />
+<link href="/assets/css/bootstrap.min.css" rel="stylesheet"
+	type="text/css" />
+<link href="/assets/css/material-dashboard.css" rel="stylesheet"
+	type="text/css" />
+<link
+	href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"
+	rel="stylesheet" type="text/css" />
+<link
+	href="http://fonts.googleapis.com/css?family=Roboto:400,700,300|Material+Icons"
+	rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+	<div class="wrapper">
+		<div class="sidebar" data-color="green"
+			data-image="/assets/img/sidebar-1.jpg">
+
+			<div class="logo">
+				<a href="#" class="simple-text"> Панель студента </a>
+
+			</div>
+
+			<div class="sidebar-wrapper">
+				<ul class="nav">
+
+					<li><a th:href="@{/user/profile}"> <i
+							class="material-icons">person</i>
+							<p>Мій профіль</p>
+					</a></li>
+					<li><a th:href="@{/user/history}"> <i
+							class="material-icons">history</i>
+							<p>Історія завдань</p>
+					</a></li>
+
+					<li><a th:href="@{/user/materials}"> <i
+							class="material-icons">library_books</i>
+							<p>Теоретичний матеріал</p>
+					</a></li>
+
+
+					<li class="active"><a th:href="@{/user/tasks}"> <i
+							class="material-icons">content_paste</i>
+							<p>Завдання</p>
+					</a></li>
+					<li><a th:href="@{/logout}"> <i class="material-icons">exit_to_app</i>
+							<p>Вийти</p>
+					</a></li>
+
+				</ul>
+			</div>
+		</div>
+
+		<div class="main-panel">
+			<nav class="navbar navbar-transparent navbar-absolute">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse">
+							<span class="sr-only">Toggle navigation</span> <span
+								class="icon-bar"></span> <span class="icon-bar"></span> <span
+								class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand" href="#">Завдання</a>
+					</div>
+					<div class="collapse navbar-collapse"></div>
+				</div>
+			</nav>
+
+			<div class="content">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-8">
+
+							<div class="card card-stats">
+								<div class="card-header" data-background-color="green">
+									<span th:text="${task.shortDescription}"> </span>
+								</div>
+								<div class="card-content">
+									<p class="category" th:text="${task.bugType}"></p>
+
+								</div>
+
+								<div class="nav-tabs-wrapper">
+
+									<ul class="nav nav-tabs" data-tabs="tabs"
+										style="background-color: #339966;">
+										<li class="active"><a href="#u_task" data-toggle="tab">Завдання
+										</a></li>
+
+										<li th:if="${historyId != null}"><a id="solutionTab"
+											href="#solution" data-toggle="tab">Правильна відповідь </a></li>
+
+									</ul>
+								</div>
+
+								<div class="card-content">
+									<div class="tab-content">
+										<div class="tab-pane active" id="u_task">
+											<form id="sendUserAnswer" action="#" method="post"
+												enctype='multipart/form-data'
+												th:action="@{'/user/tasks/'+ ${task.id}}">
+												<div class="row">
+													<div class="col-md-12">
+
+														<div class="form-group label-floating">
+															<label class="control-label">Тип дефекту</label> <span
+																th:text="${task.bugType}" style="text-align: left;"
+																class="form-control"> </span>
+														</div>
+
+														<div class="form-group label-floating">
+															<label class="control-label">Тип завдання</label> <span
+																id="type" th:text="${task.taskType}"
+																style="text-align: left;" class="form-control"> </span>
+														</div>
+
+														<div class="col-md-12">
+															<div class="form-group" style="text-align: left;">
+																<label>Опис завдання</label>
+																<div class="form-group label-floating">
+																	<label class="control-label"> </label>
+																	<div style="text-align: left;"
+																		th:utext="${task.description}"></div>
+																</div>
+															</div>
+														</div>
+
+														<section id="openedQuestion"
+															style="display: block; text-align: left;">
+
+
+															<div class="row" th:if="${task.fileLink != null}">
+																<div class="col-md-12">
+																	<label>Файли</label> <br />
+																	<h4>
+																		<a style="color: green;" th:href="${task.fileLink}"
+																			download="download">Додаток до завдання </a>
+																	</h4>
+
+																</div>
+															</div>
+
+															<div class="row">
+																<div class="col-md-12">
+																	<div class="form-group">
+																		<label>Ваша відповідь</label>
+																		<div class="form-group label-floating">
+																			<label class="control-label"> </label>
+																			<textarea id="textareaAnswer" class="form-control"
+																				rows="5" th:inline="text">
+															 
+															</textarea>
+																			<input id="inputAnswer" style="display: none"
+																				name="userAnswer" />
+																		</div>
+																	</div>
+																</div>
+															</div>
+
+															<div class="row">
+																<div class="col-md-12">
+
+
+																	<label>Ваша відповідь(додатково)</label>
+																	<div>
+																		<label id="labelForFileInput"
+																			style="background-color: #339966;" for="file"
+																			class="btn btn-btn-round">Додати файл</label> <input
+																			id="file" style="display: none;" type="file"
+																			name="uploadfile" />
+																	</div>
+
+																	<div class="form-group label-floating"
+																		th:if="${markOnClosedTask != null }">
+																		<div class="form-group">
+																			<label>Оцінка</label>
+																			<h4>
+																				<span style="color: green;"
+																					th:text="${markOnClosedTask}" class="form-control"></span>
+																			</h4>
+																		</div>
+																	</div>
+
+
+																</div>
+
+
+
+															</div>
+
+														</section>
+
+														<section id="closedQuestion"
+															style="display: none; text-align: left;">
+
+
+
+															<div class="row">
+																<div class="col-md-12">
+
+																	<div class="form-group label-floating  ">
+																		<label class="control-label">Варіант №1</label> <br />
+																		<label> <strong> <input
+																				name="variant" type="radio" id="option1"
+																				th:value="${variant1}" th:text="${variant1}" style="display: inline;" />
+																		</strong>
+																		</label>
+																	</div>
+
+
+																	<div class="form-group label-floating  ">
+																		<label class="control-label">Варіант №2</label> <br />
+																		<label> <strong> <input
+																				name="variant" type="radio" id="option2"
+																				th:value="${variant2}" th:text="${variant2}" style="display: inline;" />
+																		</strong>
+																		</label>
+																	</div>
+
+																	<div class="form-group label-floating  ">
+																		<label class="control-label">Варіант №3</label> <br />
+																		<label> <strong> <input
+																				name="variant" type="radio" id="option1"
+																				th:value="${variant3}" th:text="${variant3}" style="display: inline;" />
+																		</strong>
+																		</label>
+																	</div>
+
+																	<div class="form-group label-floating  ">
+																		<label class="control-label">Варіант №4</label> <br />
+																		<label> <strong> <input
+																				name="variant" type="radio" id="option1"
+																				th:value="${variant4}" th:text="${variant4}" style="display: inline;" />
+																		</strong>
+																		</label>
+																	</div>
+
+																</div>
+															</div>
+
+														</section>
+
+													</div>
+												</div>
+												<br />
+												<button th:if="${historyId == null}"
+													onclick="transferTextFromTextareaToInput()" type="submit"
+													class="btn btn-primary pull-right">Надіслати</button>
+											</form>
+										</div>
+										<div class="tab-pane" id="solution"
+											th:if="${historyId != null}">
+
+
+											<div class="row">
+												<div class="col-md-12">
+
+													<div class="form-group" style="text-align: left;">
+														<label>Правильна відповідь</label>
+														<div class="form-group label-floating">
+															<label class="control-label"> </label>
+															<div style="text-align: left;"
+																th:utext="${answer.answer}"></div>
+														</div>
+													</div>
+
+
+													<br />
+
+												</div>
+
+												<div class="form-group label-floating"
+													th:if="${markOnClosedTask != null }">
+													<div class="form-group" style="text-align: left;">
+														<label>Оцінка</label>
+														<h4>
+															<span style="color: green;" th:text="${markOnClosedTask}"
+																class="form-control"></span>
+														</h4>
+													</div>
+												</div>
+
+
+											</div>
+
+
+											<div class="row" style="text-align: left;"
+												th:if="${answer.fileLink != null }">
+												<div class="col-md-12">
+													<h4>
+														<label>Файли</label> <br /> <a style="color: green;"
+															th:href="${answer.fileLink}" download="download">Додаток
+															до відповіді </a>
+													</h4>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+							</div>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+</body>
+
+<!--   Core JS Files   -->
+<script src="/assets/js/jquery-3.1.0.min.js" type="text/javascript"></script>
+<script src="/assets/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="/assets/js/material.min.js" type="text/javascript"></script>
+
+<!--  Charts Plugin -->
+<script src="/assets/js/chartist.min.js"></script>
+
+<!--  Notifications Plugin    -->
+<script src="/assets/js/bootstrap-notify.js"></script>
+
+<!--  Google Maps Plugin    -->
+<script type="text/javascript"
+	src="https://maps.googleapis.com/maps/api/js"></script>
+
+<!-- Material Dashboard javascript methods -->
+<script src="/assets/js/material-dashboard.js"></script>
+
+<!-- Material Dashboard javascript methods -->
+<script src="/js/userTask.js"></script>
+
+</html>

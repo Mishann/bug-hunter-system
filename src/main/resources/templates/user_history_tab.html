@@ -1,0 +1,206 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<link rel="apple-touch-icon" sizes="76x76"
+	href="assets/img/apple-icon.png" />
+<link rel="icon" type="image/png" href="assets/img/favicon.png" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+<title>Панель студента</title>
+
+<meta
+	content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'
+	name='viewport' />
+<meta name="viewport" content="width=device-width" />
+
+<link href="/assets/css/bootstrap.min.css" rel="stylesheet"
+	type="text/css" />
+<link href="/assets/css/material-dashboard.css" rel="stylesheet"
+	type="text/css" />
+<link
+	href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"
+	rel="stylesheet" type="text/css" />
+<link
+	href="http://fonts.googleapis.com/css?family=Roboto:400,700,300|Material+Icons"
+	rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+	<div class="wrapper">
+		<div class="sidebar" data-color="green"
+			data-image="/assets/img/sidebar-1.jpg">
+			<div class="logo">
+				<a href="#" class="simple-text"> Панель студента </a>
+			</div>
+			<div class="sidebar-wrapper">
+				<ul class="nav">
+					<li><a th:href="@{/user/profile}"> <i
+							class="material-icons">person</i>
+							<p>Мій профіль</p>
+					</a></li>
+					<li class="active"><a th:href="@{/user/history}"> <i
+							class="material-icons">history</i>
+							<p>Історія завдань</p>
+					</a></li>
+
+					<li><a th:href="@{/user/materials}"> <i
+							class="material-icons">library_books</i>
+							<p>Теоретичний матеріал</p>
+					</a></li>
+					<li><a th:href="@{/user/tasks}"> <i class="material-icons">content_paste</i>
+							<p>Завдання</p>
+					</a></li>
+					<li><a th:href="@{/logout}"> <i class="material-icons">exit_to_app</i>
+							<p>Вийти</p>
+					</a></li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="main-panel">
+			<nav class="navbar navbar-transparent navbar-absolute">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse">
+							<span class="sr-only">Toggle navigation</span> <span
+								class="icon-bar"></span> <span class="icon-bar"></span> <span
+								class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand" href="#">Історія</a>
+					</div>
+					<div class="collapse navbar-collapse">
+						<ul class="nav navbar-nav navbar-right">
+
+						</ul>
+
+						<form class="navbar-form navbar-right" role="search">
+							<div class="form-group  is-empty">
+								<input type="text" class="form-control"
+									placeholder="Пошук завдання" /> <span class="material-input"></span>
+							</div>
+							<button type="submit"
+								class="btn btn-white btn-round btn-just-icon">
+								<i class="material-icons">search</i>
+								<div class="ripple-container"></div>
+							</button>
+						</form>
+
+					</div>
+				</div>
+			</nav>
+
+			<div class="content">
+				<div class="container-fluid">
+
+					<div class="nav-tabs-wrapper">
+
+						<ul class="nav nav-tabs" data-tabs="tabs"
+							style="background-color: #339966;">
+							<li class="active"><a href="#task_unchecked"
+								data-toggle="tab">Неперевірені </a></li>
+
+							<li><a href="#task_checked" data-toggle="tab">Перевірені
+							</a></li>
+
+						</ul>
+					</div>
+
+					<div class="card-content">
+						<div class="tab-content">
+							<div class="tab-pane active" id="task_unchecked">
+
+								<div class="col-md-12">
+
+									<div class="card card-stats" th:each="history : ${unchecked}">
+										<div class="card-header" data-background-color="green">
+											<span th:text="${history.task.shortDescription}"> </span>
+										</div>
+										<div class="card-content">
+											<p class="category" th:text="${history.task.bugType}"></p>
+
+										</div>
+
+										<div class="card-footer">
+
+											<div class="stats">
+												<span style="text-align: right;"
+													th:text="${history.task.taskType}"> <i
+													class="material-icons">date_range</i>
+
+												</span>
+											</div>
+
+										</div>
+
+
+										<div class="card-footer" style="text-align: right;">
+											<div class="stats">
+
+												<h5>
+													<a th:href="@{'/user/history/'+ ${history.id}}"
+														class="btn-link"> <span> Детальніше </span>
+													</a>
+												</h5>
+											</div>
+										</div>
+
+									</div>
+
+
+								</div>
+
+							</div>
+							<div class="tab-pane" id="task_checked">
+
+								<div class="col-md-12">
+
+									<div class="card card-stats" th:each="history : ${checked}">
+										<div class="card-header" data-background-color="green">
+											<span th:text="${history.task.shortDescription}"> </span>
+										</div>
+										<div class="card-content">
+											<p class="category" th:text="${history.task.bugType}"></p>
+
+										</div>
+
+										<div class="card-footer">
+
+											<div class="stats">
+												<span style="text-align: right;"
+													th:text="${history.task.taskType}"> <i
+													class="material-icons">date_range</i>
+
+												</span>
+											</div>
+
+										</div>
+
+
+										<div class="card-footer" style="text-align: right;">
+											<div class="stats">
+
+												<h5>
+													<a th:href="@{'/user/history/'+ ${history.id}}"
+														class="btn-link"> <span> Детальніше </span>
+													</a>
+												</h5>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+
+<script src="/assets/js/jquery-3.1.0.min.js" type="text/javascript"></script>
+<script src="/assets/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="/assets/js/material.min.js" type="text/javascript"></script>
+
+</html>
